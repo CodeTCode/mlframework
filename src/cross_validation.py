@@ -69,6 +69,8 @@ class CrossValidation:
         elif self.problem_type == "multilabel_classification":
             if self.num_targets != 1:
                 raise Exception("Invalid number of targets for this problem type")
+            
+            #dataframe column of multilabel classification that has multiple column labels must be merged in one column using space  delimiter -->> so this condition can work and so that excption does not occur  becoz code is designed in this way--->> In below code segment we are splitting all targets that has been merged in one column
             targets = self.dataframe[self.target_cols[0]].apply(lambda x: len(str(x).split(self.multilabel_delimiter)))
             kf = model_selection.StratifiedKFold(n_splits=self.num_folds)
             for fold, (train_idx, val_idx) in enumerate(kf.split(X=self.dataframe, y=targets)):
